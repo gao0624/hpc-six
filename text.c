@@ -4,6 +4,14 @@
 
 typedef void (*FunctionPointer)();
 
+// use clock() time.h
+clock_t start_t, end_t;
+
+int a1 = 1, a2 = 2, a3 = 3;
+int a = 4, b = 5;
+int x;
+int temp = ( 1 && 2 && 3 );
+
 void counTime(FunctionPointer func);
 void judgeOpt_before();
 void judgeOpt_after();
@@ -21,59 +29,51 @@ int main()
 }
 
 void counTime(FunctionPointer func){
-    // use clock() time.h
-    clock_t start, end;
 
-    start = clock();
-    func();
-    end = clock();
+    start_t = clock();
+    for (long i = 0; i < 1000000000; i++) {
+        // 这里可以放您的代码
+        func();
+    }
+    end_t = clock();
 
-    double runTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+    double runTime = ((double)(end_t - start_t)) / CLK_TCK;
     printf("%f\n", runTime);
 }
 
 void judgeOpt_before(){
-    int a1 = 1, a2 = 2, a3 = 3;
-    int a = 4, b = 5;
     
     if ( (a1 != 0) && (a2 != 0) && ( a3 != 0) ){
-        a = a + b;
+        int sum = a + b;
     }
 }
 
 void judgeOpt_after(){
-    int a1 = 1, a2 = 2, a3 = 3;
-    int a = 4, b = 5;
-    int temp = (a1 && a2 && a3);
-
-    if( temp != 0){
-        a = a + b;
+    
+    if( temp ){
+        int sum = a + b;
     }
 }
 
 void optOrder_before(){
-    int x;
-    int a = 4, b = 5;
     
     if(a > 0)
         x = a;
     else
         x = b;
-    printf("生成选择指令，移除分支可以实现优化\n");
 }
 
 void optOrder_after(){
-    int x;
-    int a = 4, b = 5;
-    
     x = (a > 0 ? a : b);
-    printf("使用三目运算\n");
 }
 
 void start(){
 
     counTime(judgeOpt_before);
+    printf("-----------------------------------------------------------------------------\n");
     counTime(judgeOpt_after);
+
+    printf("\n");
 
     counTime(optOrder_before);
     printf("-----------------------------------------------------------------------------\n");
