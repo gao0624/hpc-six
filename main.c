@@ -62,7 +62,7 @@ void counTime(FunctionPointer func){
     }
     end_t = clock();
 
-    double runTime = ((double)(end_t - start_t)) / CLK_TCK;
+    double runTime = ((double)(end_t - start_t)) / CLOCKS_PER_SEC;
     printf("%f\n", runTime);
 }
 
@@ -82,7 +82,7 @@ void judgeOpt_after(){
 
 void optOrder_before(){
 
-    for(int i = 1; i < 4; i++){
+    for(int i = 1; i < 3; i++){
         if(a > 0){
             x = a;
         }else
@@ -91,7 +91,7 @@ void optOrder_before(){
 }
 
 void optOrder_after(){
-    for(int i = 1; i < 4; i++){
+    for(int i = 1; i < 3; i++){
         x = (a > 0 ? a : b);
     }
 }
